@@ -1,0 +1,12 @@
+.root {
+  display: flex;
+}
+
+.drawer {
+  width: 220px;
+  flex-shrink: 0;
+}
+
+.content {
+  flex-grow: 1;
+}
