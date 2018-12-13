@@ -2,7 +2,7 @@
 import fetch from 'cross-fetch';
 
 export const REQUEST_ACCOUNT = 'REQUEST_ACCOUNT';
-function requestAccount(accountName) {
+function requestAccount(accountName: string) {
   return {
     type: REQUEST_ACCOUNT,
     accountName
@@ -10,7 +10,7 @@ function requestAccount(accountName) {
 }
 
 export const RECEIVE_ACCOUNT = 'RECEIVE_ACCOUNT';
-function receiveAccount(accountName, json) {
+function receiveAccount(accountName: string, json) {
   return {
     type: RECEIVE_ACCOUNT,
     accountName,
@@ -19,7 +19,7 @@ function receiveAccount(accountName, json) {
   };
 }
 
-export function fetchAccount(accountName) {
+export function fetchAccountInfo(accountName: string) {
   return dispatch => {
     dispatch(requestAccount(accountName));
     return fetch('https://node.eosflare.io/v1/chain/get_account', {

@@ -1,19 +1,27 @@
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import Account from '../components/Account';
-import * as AccountActions from '../actions/account';
+// @flow
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import routes from '../constants/routes';
+import AccountInfoContainer from './AccountInfoContainer';
+import AccountActionsContainer from './AccountActionsContainer';
 
-function mapStateToProps(state) {
-  return {
-    account: state.account
-  };
+type Props = {
+  //   accountName: string
+};
+
+export default class AccountPage extends Component<Props> {
+  props: Props;
+
+  render() {
+    // const { accountName } = this.props;
+    return (
+      <div>
+        <Link to={routes.HOME}>
+          <i className="fa fa-arrow-left fa-3x" />
+        </Link>
+        <AccountInfoContainer accountName="betthefuture" />
+        <AccountActionsContainer accountName="betthefuture" />
+      </div>
+    );
+  }
 }
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(AccountActions, dispatch);
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Account);
