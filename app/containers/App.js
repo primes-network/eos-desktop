@@ -10,6 +10,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import styles from './App.css';
 
 type Props = {
@@ -21,7 +22,6 @@ export default class App extends React.Component<Props> {
 
   render() {
     const { children } = this.props;
-    console.log(this.props);
 
     const sideList = (
       <div>
@@ -51,20 +51,28 @@ export default class App extends React.Component<Props> {
       </div>
     );
 
+    const theme = createMuiTheme({
+      palette: {
+        type: 'dark'
+      }
+    });
+
     return (
-      <div className={styles.root}>
-        <CssBaseline />
-        <Drawer
-          variant="permanent"
-          className={styles.drawer}
-          classes={{ paper: classNames(styles.drawer) }}
-        >
-          {sideList}
-        </Drawer>
-        <main className={styles.content}>
-          <React.Fragment>{children}</React.Fragment>
-        </main>
-      </div>
+      <MuiThemeProvider theme={theme}>
+        <div className={styles.root}>
+          <CssBaseline />
+          <Drawer
+            variant="permanent"
+            className={styles.drawer}
+            classes={{ paper: classNames(styles.drawer) }}
+          >
+            {sideList}
+          </Drawer>
+          <main className={styles.content}>
+            <React.Fragment>{children}</React.Fragment>
+          </main>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }
