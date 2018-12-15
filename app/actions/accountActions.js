@@ -29,6 +29,7 @@ export function fetchAccountActions(accountName) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
+        offset: -9999999,
         account_name: accountName
       })
     })

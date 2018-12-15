@@ -8,7 +8,8 @@ import AccountActions from '../components/AccountActions';
 type Props = {
   fetchAccountActions: (accountName: string) => void,
   accountName: string,
-  accountActions: object
+  accountActions: object,
+  pagination: object
 };
 
 class AccountActionsContainer extends Component<Props> {
@@ -20,14 +21,21 @@ class AccountActionsContainer extends Component<Props> {
   }
 
   render() {
-    const { accountActions } = this.props;
-    return <AccountActions accountActions={accountActions} />;
+    const { accountActions, pagination } = this.props;
+    return (
+      <AccountActions
+        accountActions={accountActions}
+        page={pagination.page}
+        rowsPerPage={pagination.rowsPerPage}
+      />
+    );
   }
 }
 
 function mapStateToProps(state) {
   return {
-    accountActions: state.accountActions
+    accountActions: state.accountActions,
+    pagination: state.pagination
   };
 }
 

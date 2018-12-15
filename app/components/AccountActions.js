@@ -12,30 +12,43 @@ import Moment from 'react-moment';
 import { TablePaginationActionsWrapped } from './TablePaginationActions';
 
 type Props = {
-  accountActions: object
+  accountActions: object,
+  page: number,
+  rowsPerPage: number
 };
 
 export default class AccountActions extends Component<Props> {
   props: Props;
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      page: props.page,
+      rowsPerPage: props.rowsPerPage
+    };
+  }
+
   handleChangePage = (event, page) => {
-    console.log(event);
-    console.log(page);
-    // this.setState({ page });
+    this.setState({ page });
   };
 
   handleChangeRowsPerPage = event => {
-    console.log(event);
-    // this.setState({ rowsPerPage: event.target.value });
+    this.setState({ rowsPerPage: event.target.value });
   };
 
   render() {
     const { accountActions } = this.props;
+    const { page, rowsPerPage } = this.state;
 
     const actions = [];
     if (accountActions.actions) {
-      Object.keys(accountActions.actions).forEach(key => {
-        const action = accountActions.actions[key];
+      for (
+        let index = page * rowsPerPage, loopCount = 0;
+        index < accountActions.actions.length && loopCount < rowsPerPage;
+        index += 1, loopCount += 1
+      ) {
+        const action = accountActions.actions[index];
+
         let actionInfo = JSON.stringify(action.action_trace.act.data);
         switch (action.action_trace.act.name) {
           case 'transfer':
@@ -50,8 +63,8 @@ export default class AccountActions extends Component<Props> {
             break;
         }
         actions.push(
-          <TableRow key={key}>
-            <TableCell component="th" scope="row">
+          <TableRow key={index}>
+            <TableCell>
               <Moment format="MM/DD/YYYY hh:mm:ss A">
                 {action.block_time}
               </Moment>
@@ -67,10 +80,12 @@ export default class AccountActions extends Component<Props> {
                 ? action.action_trace.act.data.quantity
                 : ''}
             </TableCell>
-            <TableCell>{actionInfo}</TableCell>
+            <TableCell style={{ wordBreak: 'break-all' }}>
+              {actionInfo}
+            </TableCell>
           </TableRow>
         );
-      });
+      }
     }
     return (
       <Paper>
@@ -88,11 +103,12 @@ export default class AccountActions extends Component<Props> {
           <TableFooter>
             <TableRow>
               <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                colSpan={3}
-                count={20}
-                rowsPerPage={20}
-                page={1}
+                rowsPerPageOptions={[1, 10, 25, 50]}
+                count={
+                  accountActions.actions ? accountActions.actions.length : 0
+                }
+                rowsPerPage={rowsPerPage}
+                page={page}
                 onChangePage={this.handleChangePage}
                 onChangeRowsPerPage={this.handleChangeRowsPerPage}
                 ActionsComponent={TablePaginationActionsWrapped}
