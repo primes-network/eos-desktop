@@ -11,6 +11,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import AccountInfoContainer from './AccountInfoContainer';
 import AccountActionsContainer from './AccountActionsContainer';
 import routes from '../constants/routes';
@@ -82,11 +84,20 @@ class AccountPage extends Component<Props> {
           {sideList}
         </Drawer>
         <main className={classes.content}>
-          <Link to={routes.HOME}>
-            <i className="fa fa-arrow-left fa-3x" />
-          </Link>
-          <AccountInfoContainer accountName="betthefuture" />
-          <AccountActionsContainer accountName="betthefuture" />
+          <Grid container className={classes.root} spacing={16}>
+            <Grid item xs={12}>
+              <AccountInfoContainer accountName="betthefuture" />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h5" gutterBottom>
+                History
+              </Typography>
+              <AccountActionsContainer accountName="betthefuture" />
+              <Link to={routes.HOME}>
+                <i className="fa fa-arrow-left fa-3x" />
+              </Link>
+            </Grid>
+          </Grid>
         </main>
       </div>
     );

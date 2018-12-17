@@ -17,11 +17,13 @@ class AccountActionsContainer extends Component<Props> {
 
   componentDidMount() {
     const { fetchAccountActions, accountName, accountActions } = this.props;
-    fetchAccountActions(
-      accountName,
-      accountActions.page,
-      accountActions.rowsPerPage
-    );
+    if (accountActions.count === 0) {
+      fetchAccountActions(
+        accountName,
+        accountActions.page,
+        accountActions.rowsPerPage
+      );
+    }
   }
 
   render() {
