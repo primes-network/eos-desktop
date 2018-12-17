@@ -4,32 +4,34 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as AccountActionActions from '../actions/accountActions';
 import AccountActions from '../components/AccountActions';
-import * as PaginationActions from '../actions/pagination';
 
 type Props = {
   fetchAccountActions: (accountName: string) => void,
   updatePagination: (page: integer, rowsPerPage: integer) => void,
   accountName: string,
-  accountActions: object,
-  pagination: object
+  accountActions: object
 };
 
 class AccountActionsContainer extends Component<Props> {
   props: Props;
 
   componentDidMount() {
-    const { fetchAccountActions, accountName, pagination } = this.props;
-    fetchAccountActions(accountName, pagination.page, pagination.rowsPerPage);
+    const { fetchAccountActions, accountName, accountActions } = this.props;
+    fetchAccountActions(
+      accountName,
+      accountActions.page,
+      accountActions.rowsPerPage
+    );
   }
 
   render() {
-    const { accountActions, pagination, updatePagination } = this.props;
+    const { accountActions, updatePagination } = this.props;
     return (
       <AccountActions
         accountActions={accountActions}
-        page={pagination.page}
-        rowsPerPage={pagination.rowsPerPage}
-        count={pagination.count}
+        page={accountActions.page}
+        rowsPerPage={accountActions.rowsPerPage}
+        count={accountActions.count}
         updatePagination={updatePagination}
       />
     );
@@ -38,16 +40,12 @@ class AccountActionsContainer extends Component<Props> {
 
 function mapStateToProps(state) {
   return {
-    accountActions: state.accountActions,
-    pagination: state.pagination
+    accountActions: state.accountActions
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    { ...AccountActionActions, ...PaginationActions },
-    dispatch
-  );
+  return bindActionCreators(AccountActionActions, dispatch);
 }
 
 export default connect(

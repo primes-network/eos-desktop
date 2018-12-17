@@ -1,6 +1,5 @@
 // @flow
 import fetch from 'cross-fetch';
-import { setTotalCount } from './pagination';
 
 export const REQUEST_ACCOUNT_ACTIONS = 'REQUEST_ACCOUNT_ACTIONS';
 function requestAccountActions(accountName) {
@@ -23,12 +22,13 @@ function receiveAccountActions(accountName, json) {
 export function fetchAccountActions(
   accountName: string,
   page: integer,
-  rowsPerPage: integer
+  rowsPerPage: integer,
+  refresh: boolean = false
 ) {
   return (dispatch, getState) => {
     dispatch(requestAccountActions(accountName));
-    const { count } = getState().pagination;
-    if (count === 0) {
+    const { count } = getState().accountActions;
+    if (count === 0 || refresh) {
       return postAccountActionsWithOffset(accountName, -1, -1) // get the last pos
         .then(response => {
           if (response.status >= 400) {
@@ -39,7 +39,6 @@ export function fetchAccountActions(
         })
         .then(json => json.actions[0].account_action_seq)
         .then(seq => {
-          console.log(seq - (page + 1) * rowsPerPage + 1, rowsPerPage - 1);
           dispatch(setTotalCount(seq + 1));
           return postAccountActionsWithOffset(
             accountName,
@@ -96,4 +95,34 @@ function postAccountActionsWithOffset(
       account_name: accountName
     })
   });
+}
+
+export const CHANGE_PAGINATION = 'CHANGE_PAGINATION';
+function changePagination(page: integer, rowsPerPage: integer) {
+  return {
+    type: CHANGE_PAGINATION,
+    pagination: { page, rowsPerPage }
+  };
+}
+
+export const SET_TOTAL_COUNT = 'SET_TOTAL_COUNT';
+export function setTotalCount(count: integer) {
+  return {
+    type: SET_TOTAL_COUNT,
+    pagination: { count }
+  };
+}
+
+export function updatePagination(
+  page: integer,
+  rowsPerPage: integer,
+  refresh: boolean = false
+) {
+  return (dispatch, getState) => {
+    dispatch(changePagination(page, rowsPerPage));
+    const { accountInfo } = getState();
+    dispatch(
+      fetchAccountActions(accountInfo.account_name, page, rowsPerPage, refresh)
+    );
+  };
 }

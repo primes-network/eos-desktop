@@ -9,10 +9,16 @@ import Paper from '@material-ui/core/Paper';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import Moment from 'react-moment';
+import IconButton from '@material-ui/core/IconButton';
+import Autorenew from '@material-ui/icons/Autorenew';
 import { TablePaginationActionsWrapped } from './TablePaginationActions';
 
 type Props = {
-  updatePagination: (page: integer, rowsPerPage: integer) => void,
+  updatePagination: (
+    page: integer,
+    rowsPerPage: integer,
+    refresh: boolean
+  ) => void,
   accountActions: object,
   page: integer,
   rowsPerPage: integer,
@@ -32,9 +38,13 @@ export default class AccountActions extends Component<Props> {
     updatePagination(page, event.target.value);
   };
 
+  handleRefresh = () => {
+    const { updatePagination, page, rowsPerPage } = this.props;
+    updatePagination(page, rowsPerPage, true);
+  };
+
   render() {
     const { accountActions, page, rowsPerPage, count } = this.props;
-    // const { page, rowsPerPage } = this.state;
 
     const actions = getAccountActions(accountActions);
 
@@ -54,6 +64,11 @@ export default class AccountActions extends Component<Props> {
           <TableBody>{actions}</TableBody>
           <TableFooter>
             <TableRow>
+              <TableCell>
+                <IconButton onClick={this.handleRefresh} aria-label="Refresh">
+                  <Autorenew />
+                </IconButton>
+              </TableCell>
               <TablePagination
                 rowsPerPageOptions={[10, 25, 50]}
                 count={count}
