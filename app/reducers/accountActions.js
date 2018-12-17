@@ -1,5 +1,6 @@
 // @flow
 import {
+  REQUEST_ACCOUNT_ACTIONS,
   RECEIVE_ACCOUNT_ACTIONS,
   CHANGE_PAGINATION,
   SET_TOTAL_COUNT
@@ -7,17 +8,22 @@ import {
 import type { Action } from './types';
 
 export default function accountActions(
-  state = { actions: {}, page: 0, rowsPerPage: 10, count: 0 },
+  state = { actions: {}, page: 0, rowsPerPage: 10, count: 0, loading: false },
   action: Action
 ) {
   switch (action.type) {
-    case RECEIVE_ACCOUNT_ACTIONS:
+    case REQUEST_ACCOUNT_ACTIONS:
+      return Object.assign({}, state, { loading: true });
+    case RECEIVE_ACCOUNT_ACTIONS: {
       // sort by block time DESC
       action.accountActions.actions.sort(
         (b, a) =>
           new Date(a.block_time).getTime() - new Date(b.block_time).getTime()
       );
-      return Object.assign({}, state, action.accountActions);
+      const newState = Object.assign({}, state, action.accountActions);
+      newState.loading = false;
+      return newState;
+    }
     case CHANGE_PAGINATION:
     case SET_TOTAL_COUNT:
       return Object.assign(

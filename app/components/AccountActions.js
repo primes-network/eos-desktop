@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,9 +12,11 @@ import TablePagination from '@material-ui/core/TablePagination';
 import Moment from 'react-moment';
 import IconButton from '@material-ui/core/IconButton';
 import Autorenew from '@material-ui/icons/Autorenew';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { TablePaginationActionsWrapped } from './TablePaginationActions';
 
 type Props = {
+  classes: object,
   updatePagination: (
     page: integer,
     rowsPerPage: integer,
@@ -22,10 +25,17 @@ type Props = {
   accountActions: object,
   page: integer,
   rowsPerPage: integer,
-  count: integer
+  count: integer,
+  loading: boolean
 };
 
-export default class AccountActions extends Component<Props> {
+const styles = () => ({
+  refreshCell: {
+    padding: 4
+  }
+});
+
+class AccountActions extends Component<Props> {
   props: Props;
 
   handleChangePage = (event, page) => {
@@ -44,7 +54,14 @@ export default class AccountActions extends Component<Props> {
   };
 
   render() {
-    const { accountActions, page, rowsPerPage, count } = this.props;
+    const {
+      classes,
+      accountActions,
+      page,
+      rowsPerPage,
+      count,
+      loading
+    } = this.props;
 
     const actions = getAccountActions(accountActions);
 
@@ -64,10 +81,19 @@ export default class AccountActions extends Component<Props> {
           <TableBody>{actions}</TableBody>
           <TableFooter>
             <TableRow>
-              <TableCell>
-                <IconButton onClick={this.handleRefresh} aria-label="Refresh">
+              <TableCell className={classes.refreshCell}>
+                <IconButton
+                  onClick={this.handleRefresh}
+                  aria-label="Refresh"
+                  disabled={loading}
+                >
                   <Autorenew />
                 </IconButton>
+                {loading && (
+                  <IconButton>
+                    <CircularProgress size={20} />
+                  </IconButton>
+                )}
               </TableCell>
               <TablePagination
                 rowsPerPageOptions={[10, 25, 50]}
@@ -129,3 +155,5 @@ function getAccountActions(accountActions) {
   }
   return actions;
 }
+
+export default withStyles(styles)(AccountActions);

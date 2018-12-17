@@ -32,6 +32,7 @@ class AccountActionsContainer extends Component<Props> {
         page={accountActions.page}
         rowsPerPage={accountActions.rowsPerPage}
         count={accountActions.count}
+        loading={accountActions.loading}
         updatePagination={updatePagination}
       />
     );
