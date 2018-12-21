@@ -26,8 +26,24 @@ const styles = theme => ({
 class AccountInfo extends Component<Props> {
   props: Props;
 
+  static convertStrToNum(strValue: string): number {
+    return parseFloat(strValue).toFixed(4);
+  }
+
+  static convertStrToNumAndSum(strValue1: string, strValue2: string): number {
+    return (parseFloat(strValue1) + parseFloat(strValue2)).toFixed(4);
+  }
+
   render() {
-    const { classes, accountInfo } = this.props;
+    const {
+      classes,
+      accountInfo: {
+        account_name: accountName,
+        core_liquid_balance: CoreLiquidBalance,
+        self_delegated_bandwidth: selfDelegatedBandwidth,
+        refund_request: refundRequest
+      }
+    } = this.props;
     return (
       <Paper className={classes.paper}>
         <Grid container>
@@ -35,7 +51,7 @@ class AccountInfo extends Component<Props> {
             <Typography variant="caption" gutterBottom>
               Account Name
             </Typography>
-            <Typography variant="h5">{accountInfo.account_name}</Typography>
+            <Typography variant="h5">{accountName}</Typography>
             <Divider className={classes.divider} />
           </Grid>
           <Grid item xs={4}>
@@ -43,19 +59,34 @@ class AccountInfo extends Component<Props> {
               Unstaked
             </Typography>
             <Typography variant="h6">
-              {accountInfo.core_liquid_balance}
+              {AccountInfo.convertStrToNum(CoreLiquidBalance)}
             </Typography>
           </Grid>
           <Grid item xs={4}>
             <Typography variant="caption" gutterBottom>
               Staked
             </Typography>
+            {selfDelegatedBandwidth && (
+              <Typography variant="h6">
+                {AccountInfo.convertStrToNumAndSum(
+                  selfDelegatedBandwidth.net_weight,
+                  selfDelegatedBandwidth.cpu_weight
+                )}
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={4}>
             <Typography variant="caption" gutterBottom>
               Refunding
             </Typography>
-            <Typography variant="h6">{accountInfo.refund_request}</Typography>
+            {refundRequest && (
+              <Typography variant="h6">
+                {AccountInfo.convertStrToNumAndSum(
+                  refundRequest.net_amount,
+                  refundRequest.cpu_amount
+                )}
+              </Typography>
+            )}
           </Grid>
           <Grid item xs={12}>
             <Divider className={classes.divider} />
