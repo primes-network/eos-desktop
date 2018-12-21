@@ -18,7 +18,8 @@ import AccountActionsContainer from './AccountActionsContainer';
 import routes from '../constants/routes';
 
 type Props = {
-  classes: object
+  classes: object,
+  match: object
 };
 
 const drawerWidth = 220;
@@ -73,7 +74,10 @@ class AccountPage extends Component<Props> {
   props: Props;
 
   render() {
-    const { classes } = this.props;
+    const {
+      classes,
+      match: { params }
+    } = this.props;
 
     return (
       <div className={classes.root}>
@@ -86,13 +90,13 @@ class AccountPage extends Component<Props> {
         <main className={classes.content}>
           <Grid container className={classes.root} spacing={16}>
             <Grid item xs={12}>
-              <AccountInfoContainer accountName="betthefuture" />
+              <AccountInfoContainer accountName={params.name} />
             </Grid>
             <Grid item xs={12}>
               <Typography variant="h5" gutterBottom>
                 History
               </Typography>
-              <AccountActionsContainer accountName="betthefuture" />
+              <AccountActionsContainer accountName={params.name} />
               <Link to={routes.HOME}>
                 <i className="fa fa-arrow-left fa-3x" />
               </Link>

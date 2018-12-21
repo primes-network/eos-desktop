@@ -1,5 +1,5 @@
 {
   "HOME": "/",
   "COUNTER": "/counter",
-  "ACCOUNT": "/account"
+  "ACCOUNT": "/account/:name"
 }
