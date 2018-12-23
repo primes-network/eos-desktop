@@ -71,7 +71,7 @@ class AccountInfo extends Component<Props> {
               <Typography variant="caption" gutterBottom>
                 Unstaked
               </Typography>
-              <Typography variant="h6">
+              <Typography variant="subtitle1">
                 {AccountInfo.convertStrToNum(CoreLiquidBalance)} EOS
               </Typography>
             </Grid>
@@ -80,7 +80,7 @@ class AccountInfo extends Component<Props> {
                 Staked
               </Typography>
               {selfDelegatedBandwidth && (
-                <Typography variant="h6">
+                <Typography variant="subtitle1">
                   {AccountInfo.convertStrToNumAndSum(
                     selfDelegatedBandwidth.net_weight,
                     selfDelegatedBandwidth.cpu_weight
@@ -94,7 +94,7 @@ class AccountInfo extends Component<Props> {
                 Refunding
               </Typography>
               {refundRequest && (
-                <Typography variant="h6">
+                <Typography variant="subtitle1">
                   {AccountInfo.convertStrToNumAndSum(
                     refundRequest.net_amount,
                     refundRequest.cpu_amount
@@ -110,7 +110,7 @@ class AccountInfo extends Component<Props> {
               <Typography variant="caption" gutterBottom>
                 RAM
               </Typography>
-              <Typography variant="h6">
+              <Typography variant="subtitle1">
                 {AccountInfo.formatNumber(ramUsage / 1024, 2)}KB /{' '}
                 {AccountInfo.formatNumber(ramQuota / 1024, 2)}KB
               </Typography>
@@ -120,7 +120,7 @@ class AccountInfo extends Component<Props> {
                 CPU
               </Typography>
               {cpuLimit && (
-                <Typography variant="h6">
+                <Typography variant="subtitle1">
                   {AccountInfo.formatNumber(cpuLimit.used / 1000, 3)}ms /{' '}
                   {AccountInfo.formatNumber(cpuLimit.max / 1000, 3)}ms (
                   {cpuWeight / 10000} EOS)
@@ -132,7 +132,7 @@ class AccountInfo extends Component<Props> {
                 NET
               </Typography>
               {netLimit && (
-                <Typography variant="h6">
+                <Typography variant="subtitle1">
                   {AccountInfo.formatNumber(netLimit.used / 1024, 2)}KB /{' '}
                   {AccountInfo.formatNumber(netLimit.max / 1024, 2)}KB (
                   {netWeight / 10000} EOS)
@@ -141,9 +141,7 @@ class AccountInfo extends Component<Props> {
             </Grid>
           </Grid>
         </Paper>
-        <Grid container spacing={8}>
-          <AccountPermissions permissions={permissions} />
-        </Grid>
+        <AccountPermissions permissions={permissions} />
       </Grid>
     );
   }

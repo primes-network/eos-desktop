@@ -31,27 +31,33 @@ class AccountPermissions extends Component<Props> {
     const permissionGrid =
       permissions === undefined
         ? null
-        : permissions.forEach((item, i) => (
-            <div key={i.toString()}>
+        : permissions.map(permission => (
+            <Grid container key={permission.perm_name}>
               <Grid item xs={2}>
-                <Typography variant="h6">{item.perm_name}</Typography>
+                <Typography variant="subtitle2">
+                  {permission.perm_name}
+                </Typography>
               </Grid>
               <Grid item xs={10}>
-                {item.required_auth.keys.forEach((k, j) => (
-                  <Typography variant="h6" key={j.toString()}>
+                {permission.required_auth.keys.map(k => (
+                  <Typography variant="subtitle2" key={k.key}>
                     {k.key}
                   </Typography>
                 ))}
               </Grid>
               <Divider />
-            </div>
+            </Grid>
           ));
     return (
-      <Grid item xs={12}>
-        <Typography variant="h5" gutterBottom>
-          Permissions
-        </Typography>
-        <Paper className={classes.paper}>{permissionGrid}</Paper>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography variant="h6" gutterBottom>
+            Permissions
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>{permissionGrid}</Paper>
+        </Grid>
       </Grid>
     );
   }

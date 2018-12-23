@@ -7,10 +7,15 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
+import HistoryIcon from '@material-ui/icons/History';
+import SendIcon from '@material-ui/icons/Send';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import MemoryIcon from '@material-ui/icons/Memory';
+import HowToVoteIcon from '@material-ui/icons/HowToVote';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import AccountInfoContainer from './AccountInfoContainer';
@@ -44,40 +49,97 @@ const styles = theme => ({
     overflow: 'auto'
   }
 });
-const sideList = (
-  <div>
-    <List>
-      {['History', 'Transfer', 'Delegate', 'Undelegate'].map((text, index) => (
-        <ListItem button key={text}>
-          <ListItemIcon>
-            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-          </ListItemIcon>
-          <ListItemText primary={text} />
-        </ListItem>
-      ))}
-    </List>
-    <Divider />
-    <List>
-      {['RAM', 'Voting'].map((text, index) => (
-        <ListItem button key={text}>
-          <ListItemIcon>
-            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-          </ListItemIcon>
-          <ListItemText primary={text} />
-        </ListItem>
-      ))}
-    </List>
-  </div>
-);
 
 class AccountPage extends Component<Props> {
   props: Props;
+
+  state = {
+    selectedIndex: ''
+  };
+
+  handleListItemSelected(selectedIndex) {
+    this.setState({ selectedIndex });
+  }
 
   render() {
     const {
       classes,
       match: { params }
     } = this.props;
+
+    const { selectedIndex } = this.state;
+
+    const sideList = (
+      <div>
+        <List>
+          <ListItem
+            button
+            key="history"
+            selected={selectedIndex === 'history'}
+            onClick={() => this.handleListItemSelected('history')}
+          >
+            <ListItemIcon>
+              <HistoryIcon />
+            </ListItemIcon>
+            <ListItemText primary="History" />
+          </ListItem>
+          <ListItem
+            button
+            key="transfer"
+            selected={selectedIndex === 'transfer'}
+          >
+            <ListItemIcon>
+              <SendIcon />
+            </ListItemIcon>
+            <ListItemText primary="Transfer" />
+          </ListItem>
+          <ListItem
+            button
+            key="delegate"
+            selected={selectedIndex === 'delegate'}
+          >
+            <ListItemIcon>
+              <ArrowForwardIosIcon />
+            </ListItemIcon>
+            <ListItemText primary="Delegate" />
+          </ListItem>
+          <ListItem
+            button
+            key="undelegate"
+            selected={selectedIndex === 'undelegate'}
+          >
+            <ListItemIcon>
+              <ArrowBackIosIcon />
+            </ListItemIcon>
+            <ListItemText primary="Undelegate" />
+          </ListItem>
+        </List>
+        <Divider />
+        <List>
+          <ListItem button key="ram" selected={selectedIndex === 'ram'}>
+            <ListItemIcon>
+              <MemoryIcon />
+            </ListItemIcon>
+            <ListItemText primary="RAM" />
+          </ListItem>
+          <ListItem button key="voting" selected={selectedIndex === 'voting'}>
+            <ListItemIcon>
+              <HowToVoteIcon />
+            </ListItemIcon>
+            <ListItemText primary="Voting" />
+          </ListItem>
+        </List>
+        <Divider />
+        <List>
+          <ListItem button component={Link} to={routes.HOME} key="Logout">
+            <ListItemIcon>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItem>
+        </List>
+      </div>
+    );
 
     return (
       <div className={classes.root}>
@@ -93,13 +155,10 @@ class AccountPage extends Component<Props> {
               <AccountInfoContainer accountName={params.name} />
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h6" gutterBottom>
                 History
               </Typography>
               <AccountActionsContainer accountName={params.name} />
-              <Link to={routes.HOME}>
-                <i className="fa fa-arrow-left fa-3x" />
-              </Link>
             </Grid>
           </Grid>
         </main>
