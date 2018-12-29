@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
+import { Switch, Route } from 'react-router';
 import classNames from 'classnames';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
@@ -16,15 +17,14 @@ import HowToVoteIcon from '@material-ui/icons/HowToVote';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import AccountInfoContainer from './AccountInfoContainer';
-import AccountActionsContainer from './AccountActionsContainer';
-import routes from '../constants/routes';
+import EuroSymbolIcon from '@material-ui/icons/EuroSymbol';
+import { rootRoutes, accountRoutes } from '../constants/routes';
 
 type Props = {
   classes: object,
-  match: object
+  match: object,
+  history: object,
+  location: object
 };
 
 const drawerWidth = 220;
@@ -54,18 +54,25 @@ class AccountPage extends Component<Props> {
   props: Props;
 
   state = {
-    selectedIndex: ''
+    selectedIndex: 'history'
   };
 
   handleListItemSelected(selectedIndex) {
+    const {
+      history,
+      location,
+      match: { params }
+    } = this.props;
+    const newPath = `/account/${params.name}/${selectedIndex}`;
+    if (newPath === location.pathname) {
+      return;
+    }
+    history.push(newPath);
     this.setState({ selectedIndex });
   }
 
   render() {
-    const {
-      classes,
-      match: { params }
-    } = this.props;
+    const { classes } = this.props;
 
     const { selectedIndex } = this.state;
 
@@ -85,8 +92,20 @@ class AccountPage extends Component<Props> {
           </ListItem>
           <ListItem
             button
+            key="token"
+            selected={selectedIndex === 'token'}
+            onClick={() => this.handleListItemSelected('token')}
+          >
+            <ListItemIcon>
+              <EuroSymbolIcon />
+            </ListItemIcon>
+            <ListItemText primary="Token" />
+          </ListItem>
+          <ListItem
+            button
             key="transfer"
             selected={selectedIndex === 'transfer'}
+            onClick={() => this.handleListItemSelected('transfer')}
           >
             <ListItemIcon>
               <SendIcon />
@@ -131,7 +150,12 @@ class AccountPage extends Component<Props> {
         </List>
         <Divider />
         <List>
-          <ListItem button component={Link} to={routes.HOME} key="Logout">
+          <ListItem
+            button
+            component={Link}
+            to={rootRoutes.HOME.path}
+            key="Logout"
+          >
             <ListItemIcon>
               <ExitToAppIcon />
             </ListItemIcon>
@@ -150,17 +174,16 @@ class AccountPage extends Component<Props> {
           {sideList}
         </Drawer>
         <main className={classes.content}>
-          <Grid container className={classes.root} spacing={16}>
-            <Grid item xs={12}>
-              <AccountInfoContainer accountName={params.name} />
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="h6" gutterBottom>
-                History
-              </Typography>
-              <AccountActionsContainer accountName={params.name} />
-            </Grid>
-          </Grid>
+          <Switch>
+            <Route
+              path={accountRoutes.HISTORY.path}
+              component={accountRoutes.HISTORY.component}
+            />
+            <Route
+              path={accountRoutes.TOKEN.path}
+              component={accountRoutes.TOKEN.component}
+            />
+          </Switch>
         </main>
       </div>
     );
