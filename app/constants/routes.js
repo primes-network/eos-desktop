@@ -1,5 +1,5 @@
 import HomePage from '../containers/HomePage';
-import AccountPage from '../containers/AccountPage';
+import AccountHomePage from '../containers/AccountHomePage';
 import CounterPage from '../containers/CounterPage';
 import AccountHistory from '../components/AccountHistory';
 import AccountTokenPage from '../containers/AccountTokenPage';
@@ -15,7 +15,7 @@ export const rootRoutes = {
   },
   ACCOUNT: {
     path: '/account/:name',
-    component: AccountPage
+    component: AccountHomePage
   }
 };
 

@@ -82,11 +82,7 @@ class AccountActions extends Component<Props> {
           <TableFooter>
             <TableRow>
               <TableCell className={classes.refreshCell}>
-                <IconButton
-                  onClick={this.handleRefresh}
-                  aria-label="Refresh"
-                  disabled={loading}
-                >
+                <IconButton onClick={this.handleRefresh} aria-label="Refresh">
                   <Autorenew />
                 </IconButton>
                 {loading && (

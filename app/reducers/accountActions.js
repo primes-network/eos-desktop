@@ -3,14 +3,20 @@ import {
   REQUEST_ACCOUNT_ACTIONS,
   RECEIVE_ACCOUNT_ACTIONS,
   CHANGE_PAGINATION,
-  SET_TOTAL_COUNT
+  SET_TOTAL_COUNT,
+  RESET_ACCOUNT_ACTIONS
 } from '../actions/accountActions';
 import type { Action } from './types';
 
-export default function accountActions(
-  state = { actions: {}, page: 0, rowsPerPage: 10, count: 0, loading: false },
-  action: Action
-) {
+const initState = {
+  actions: {},
+  page: 0,
+  rowsPerPage: 10,
+  count: 0,
+  loading: false
+};
+
+export default function accountActions(state = initState, action: Action) {
   switch (action.type) {
     case REQUEST_ACCOUNT_ACTIONS:
       return Object.assign({}, state, { loading: true });
@@ -31,6 +37,8 @@ export default function accountActions(
         state,
         Object.assign({}, state.pagination, action.pagination)
       );
+    case RESET_ACCOUNT_ACTIONS:
+      return initState;
     default:
       return state;
   }

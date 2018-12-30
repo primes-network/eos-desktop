@@ -24,7 +24,10 @@ type Props = {
   classes: object,
   match: object,
   history: object,
-  location: object
+  location: object,
+  resetAccountInfo: () => void,
+  resetAccountToken: () => void,
+  resetAccountActions: () => void
 };
 
 const drawerWidth = 220;
@@ -50,8 +53,14 @@ const styles = theme => ({
   }
 });
 
-class AccountPage extends Component<Props> {
+class AccountHome extends Component<Props> {
   props: Props;
+
+  constructor(props) {
+    super(props);
+
+    this.handleLogout = this.handleLogout.bind(this);
+  }
 
   state = {
     selectedIndex: 'history'
@@ -69,6 +78,17 @@ class AccountPage extends Component<Props> {
     }
     history.push(newPath);
     this.setState({ selectedIndex });
+  }
+
+  handleLogout() {
+    const {
+      resetAccountInfo,
+      resetAccountToken,
+      resetAccountActions
+    } = this.props;
+    resetAccountInfo();
+    resetAccountToken();
+    resetAccountActions();
   }
 
   render() {
@@ -154,7 +174,8 @@ class AccountPage extends Component<Props> {
             button
             component={Link}
             to={rootRoutes.HOME.path}
-            key="Logout"
+            key="logout"
+            onClick={this.handleLogout}
           >
             <ListItemIcon>
               <ExitToAppIcon />
@@ -190,4 +211,4 @@ class AccountPage extends Component<Props> {
   }
 }
 
-export default withStyles(styles)(AccountPage);
+export default withStyles(styles)(AccountHome);

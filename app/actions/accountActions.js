@@ -19,6 +19,13 @@ function receiveAccountActions(accountName, json) {
   };
 }
 
+export const RESET_ACCOUNT_ACTIONS = 'RESET_ACCOUNT_ACTIONS';
+export function resetAccountActions() {
+  return {
+    type: RESET_ACCOUNT_ACTIONS
+  };
+}
+
 export function fetchAccountActions(
   accountName: string,
   page: integer,

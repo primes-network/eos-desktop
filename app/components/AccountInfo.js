@@ -6,6 +6,11 @@ import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import AccountPermissions from './AccountPermissions';
+import {
+  formatNumber,
+  convertStrToNum,
+  convertStrToNumAndSum
+} from '../utils/numConvert';
 
 type Props = {
   classes: object,
@@ -26,18 +31,6 @@ const styles = theme => ({
 
 class AccountInfo extends Component<Props> {
   props: Props;
-
-  static convertStrToNum(strValue: string): number {
-    return this.formatNumber(parseFloat(strValue));
-  }
-
-  static convertStrToNumAndSum(strValue1: string, strValue2: string): number {
-    return this.formatNumber(parseFloat(strValue1) + parseFloat(strValue2));
-  }
-
-  static formatNumber(num: number, p: integer = 4): number {
-    return num.toFixed(p);
-  }
 
   render() {
     const {
@@ -72,7 +65,7 @@ class AccountInfo extends Component<Props> {
                 Unstaked
               </Typography>
               <Typography variant="subtitle1">
-                {AccountInfo.convertStrToNum(CoreLiquidBalance)} EOS
+                {convertStrToNum(CoreLiquidBalance)} EOS
               </Typography>
             </Grid>
             <Grid item xs={4}>
@@ -81,7 +74,7 @@ class AccountInfo extends Component<Props> {
               </Typography>
               {selfDelegatedBandwidth && (
                 <Typography variant="subtitle1">
-                  {AccountInfo.convertStrToNumAndSum(
+                  {convertStrToNumAndSum(
                     selfDelegatedBandwidth.net_weight,
                     selfDelegatedBandwidth.cpu_weight
                   )}{' '}
@@ -95,7 +88,7 @@ class AccountInfo extends Component<Props> {
               </Typography>
               {refundRequest && (
                 <Typography variant="subtitle1">
-                  {AccountInfo.convertStrToNumAndSum(
+                  {convertStrToNumAndSum(
                     refundRequest.net_amount,
                     refundRequest.cpu_amount
                   )}{' '}
@@ -111,8 +104,8 @@ class AccountInfo extends Component<Props> {
                 RAM
               </Typography>
               <Typography variant="subtitle1">
-                {AccountInfo.formatNumber(ramUsage / 1024, 2)}KB /{' '}
-                {AccountInfo.formatNumber(ramQuota / 1024, 2)}KB
+                {formatNumber(ramUsage / 1024, 2)}KB /{' '}
+                {formatNumber(ramQuota / 1024, 2)}KB
               </Typography>
             </Grid>
             <Grid item xs={4}>
@@ -121,9 +114,9 @@ class AccountInfo extends Component<Props> {
               </Typography>
               {cpuLimit && (
                 <Typography variant="subtitle1">
-                  {AccountInfo.formatNumber(cpuLimit.used / 1000, 3)}ms /{' '}
-                  {AccountInfo.formatNumber(cpuLimit.max / 1000, 3)}ms (
-                  {cpuWeight / 10000} EOS)
+                  {formatNumber(cpuLimit.used / 1000, 3)}ms /{' '}
+                  {formatNumber(cpuLimit.max / 1000, 3)}ms ({cpuWeight / 10000}{' '}
+                  EOS)
                 </Typography>
               )}
             </Grid>
@@ -133,9 +126,9 @@ class AccountInfo extends Component<Props> {
               </Typography>
               {netLimit && (
                 <Typography variant="subtitle1">
-                  {AccountInfo.formatNumber(netLimit.used / 1024, 2)}KB /{' '}
-                  {AccountInfo.formatNumber(netLimit.max / 1024, 2)}KB (
-                  {netWeight / 10000} EOS)
+                  {formatNumber(netLimit.used / 1024, 2)}KB /{' '}
+                  {formatNumber(netLimit.max / 1024, 2)}KB ({netWeight / 10000}{' '}
+                  EOS)
                 </Typography>
               )}
             </Grid>

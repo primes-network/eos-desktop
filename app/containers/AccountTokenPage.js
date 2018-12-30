@@ -2,29 +2,40 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as AccountInfoActions from '../actions/accountInfo';
+import * as AccountTokenActions from '../actions/accountToken';
+import AccountToken from '../components/AccountToken';
 
 type Props = {
-  accountName: string
+  match: object,
+  fetchAccountToken: () => void,
+  accountToken: object
 };
 
 class AccountTokenPage extends Component<Props> {
   props: Props;
 
+  componentDidMount() {
+    const {
+      fetchAccountToken,
+      match: { params }
+    } = this.props;
+    fetchAccountToken(params.name);
+  }
+
   render() {
-    const { accountName } = this.props;
-    return <div>{accountName}ahahah</div>;
+    const { accountToken } = this.props;
+    return <AccountToken tokens={accountToken} />;
   }
 }
 
 function mapStateToProps(state) {
   return {
-    accountInfo: state.accountInfo
+    accountToken: state.accountToken
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(AccountInfoActions, dispatch);
+  return bindActionCreators(AccountTokenActions, dispatch);
 }
 
 export default connect(

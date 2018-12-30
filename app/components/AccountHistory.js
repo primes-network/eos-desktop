@@ -7,7 +7,6 @@ import AccountInfoContainer from '../containers/AccountInfoContainer';
 import AccountActionsContainer from '../containers/AccountActionsContainer';
 
 type Props = {
-  classes: object,
   match: object
 };
 
@@ -16,12 +15,11 @@ class AccountHistory extends Component<Props> {
 
   render() {
     const {
-      classes,
       match: { params }
     } = this.props;
 
     return (
-      <Grid container className={classes.root} spacing={16}>
+      <Grid container spacing={16}>
         <Grid item xs={12}>
           <AccountInfoContainer accountName={params.name} />
         </Grid>
