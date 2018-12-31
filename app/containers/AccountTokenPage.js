@@ -7,6 +7,7 @@ import AccountToken from '../components/AccountToken';
 
 type Props = {
   match: object,
+  fetchTokenList: () => void,
   fetchAccountToken: () => void,
   accountToken: object
 };
@@ -14,17 +15,27 @@ type Props = {
 class AccountTokenPage extends Component<Props> {
   props: Props;
 
-  componentDidMount() {
-    const {
-      fetchAccountToken,
-      match: { params }
-    } = this.props;
-    fetchAccountToken(params.name);
+  constructor(props) {
+    super(props);
+
+    const { fetchTokenList } = props;
+    fetchTokenList();
   }
 
   render() {
-    const { accountToken } = this.props;
-    return <AccountToken tokens={accountToken} />;
+    const {
+      accountToken,
+      fetchAccountToken,
+      match: { params }
+    } = this.props;
+    return (
+      <AccountToken
+        all={accountToken.all}
+        owns={accountToken.owns}
+        accountName={params.name}
+        fetchAccountToken={fetchAccountToken}
+      />
+    );
   }
 }
 

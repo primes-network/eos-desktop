@@ -11,17 +11,11 @@ function requestAccountToken(accountName: string, symbol: string) {
 }
 
 export const RECEIVE_ACCOUNT_TOKEN = 'RECEIVE_ACCOUNT_TOKEN';
-function receiveAccountToken(
-  accountName: string,
-  tokenAccount: string,
-  symbol: string,
-  json
-) {
+function receiveAccountToken(accountName: string, token: object, json) {
   return {
     type: RECEIVE_ACCOUNT_TOKEN,
     accountName,
-    tokenAccount,
-    symbol,
+    token,
     json,
     receivedAt: Date.now()
   };
@@ -34,9 +28,25 @@ export function resetAccountToken() {
   };
 }
 
-export function fetchAccountToken(accountName: string) {
-  return dispatch =>
-    fetch(
+export const REQUEST_TOKEN_LIST = 'REQUEST_TOKEN_LIST';
+export function requestTokenList() {
+  return {
+    type: REQUEST_TOKEN_LIST
+  };
+}
+
+export const RECEIVE_TOKEN_LIST = 'RECEIVE_TOKEN_LIST';
+export function receiveTokenList(json) {
+  return {
+    type: RECEIVE_TOKEN_LIST,
+    json
+  };
+}
+
+export function fetchTokenList() {
+  return dispatch => {
+    dispatch(receiveTokenList());
+    return fetch(
       'https://raw.githubusercontent.com/eoscafe/eos-airdrops/master/tokens.json',
       {
         method: 'get',
@@ -47,35 +57,26 @@ export function fetchAccountToken(accountName: string) {
       }
     )
       .then(response => response.json())
-      .then(tokensJson =>
-        tokensJson.map(token => {
-          dispatch(requestAccountToken(accountName));
-          return fetch(
-            'https://api.eosnewyork.io/v1/chain/get_currency_balance',
-            {
-              method: 'post',
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({
-                code: token.account,
-                account: accountName,
-                symbol: token.symbol
-              })
-            }
-          )
-            .then(response => response.json())
-            .then(json =>
-              dispatch(
-                receiveAccountToken(
-                  accountName,
-                  token.account,
-                  token.symbol,
-                  json
-                )
-              )
-            );
-        })
-      );
+      .then(json => dispatch(receiveTokenList(json)));
+  };
+}
+
+export function fetchAccountToken(accountName: string, token: object) {
+  return dispatch => {
+    dispatch(requestAccountToken(accountName));
+    return fetch('https://api.eosnewyork.io/v1/chain/get_currency_balance', {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        code: token.account,
+        account: accountName,
+        symbol: token.symbol
+      })
+    })
+      .then(response => response.json())
+      .then(json => dispatch(receiveAccountToken(accountName, token, json)));
+  };
 }

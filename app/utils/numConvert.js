@@ -11,5 +11,5 @@ export function convertStrToNumAndSum(
 }
 
 export function formatNumber(num: number, p: integer = 4): number {
-  return num.toFixed(p);
+  return num ? num.toFixed(p) : 0;
 }
