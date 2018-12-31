@@ -1,6 +1,5 @@
 // @flow
 import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import AccountInfoContainer from '../containers/AccountInfoContainer';
@@ -10,7 +9,7 @@ type Props = {
   match: object
 };
 
-class AccountHistory extends Component<Props> {
+export default class AccountHistory extends Component<Props> {
   props: Props;
 
   render() {
@@ -33,5 +32,3 @@ class AccountHistory extends Component<Props> {
     );
   }
 }
-
-export default withStyles()(AccountHistory);

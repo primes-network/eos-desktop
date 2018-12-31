@@ -20,6 +20,9 @@ const styles = theme => ({
   divider: {
     marginTop: 5,
     marginBottom: 8
+  },
+  permissionTitle: {
+    marginTop: 15
   }
 });
 
@@ -51,7 +54,11 @@ class AccountPermissions extends Component<Props> {
     return (
       <Grid container>
         <Grid item xs={12}>
-          <Typography variant="h6" gutterBottom>
+          <Typography
+            variant="h6"
+            gutterBottom
+            className={classes.permissionTitle}
+          >
             Permissions
           </Typography>
         </Grid>

@@ -23,7 +23,7 @@ type Props = {
   fetchAccountToken: () => void
 };
 
-const styles = {
+const styles = () => ({
   root: {
     display: 'flex'
   },
@@ -49,7 +49,7 @@ const styles = {
       width: 50
     }
   }
-};
+});
 
 class AccountToken extends Component<Props> {
   props: Props;
