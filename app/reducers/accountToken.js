@@ -17,19 +17,21 @@ export default function accountToken(
     case REQUEST_TOKEN_LIST:
       return state;
     case RECEIVE_TOKEN_LIST:
-      return Object.assign({}, state, { all: action.json });
+      return { ...state, all: action.json };
     case REQUEST_ACCOUNT_TOKEN:
       return state;
     case RECEIVE_ACCOUNT_TOKEN: {
       const balance = convertStrToNum(action.json);
-      return Object.assign({}, state, {
-        owns: Object.assign({}, state.owns, {
+      return {
+        ...state,
+        owns: {
+          ...state.owns,
           [`${action.token.symbol}-${action.token.account}`]: {
             token: action.token,
             balance
           }
-        })
-      });
+        }
+      };
     }
     case RESET_ACCOUNT_TOKEN:
       return {};

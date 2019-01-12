@@ -29,7 +29,7 @@ export function resetAccountToken() {
 }
 
 export const REQUEST_TOKEN_LIST = 'REQUEST_TOKEN_LIST';
-export function requestTokenList() {
+function requestTokenList() {
   return {
     type: REQUEST_TOKEN_LIST
   };
@@ -43,9 +43,21 @@ export function receiveTokenList(json) {
   };
 }
 
+export const REMOVE_ACCOUNT_TOKEN = 'REMOVE_ACCOUNT_TOKEN_FROM_STORE';
+export function removeAccountTokenFromStore(
+  accountName: string,
+  token: object
+) {
+  return {
+    type: REMOVE_ACCOUNT_TOKEN,
+    accountName,
+    token
+  };
+}
+
 export function fetchTokenList() {
   return dispatch => {
-    dispatch(receiveTokenList());
+    dispatch(requestTokenList());
     return fetch(
       'https://raw.githubusercontent.com/eoscafe/eos-airdrops/master/tokens.json',
       {
