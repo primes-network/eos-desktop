@@ -9,6 +9,7 @@ type Props = {
   match: object,
   fetchTokenList: () => void,
   fetchAccountToken: () => void,
+  removeAccountToken: () => void,
   accountToken: object
 };
 
@@ -26,6 +27,7 @@ class AccountTokenPage extends Component<Props> {
     const {
       accountToken,
       fetchAccountToken,
+      removeAccountToken,
       match: { params }
     } = this.props;
     return (
@@ -34,6 +36,7 @@ class AccountTokenPage extends Component<Props> {
         owns={accountToken.owns}
         accountName={params.name}
         fetchAccountToken={fetchAccountToken}
+        removeAccountToken={removeAccountToken}
       />
     );
   }

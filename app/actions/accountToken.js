@@ -43,15 +43,12 @@ export function receiveTokenList(json) {
   };
 }
 
-export const REMOVE_ACCOUNT_TOKEN = 'REMOVE_ACCOUNT_TOKEN_FROM_STORE';
-export function removeAccountTokenFromStore(
-  accountName: string,
-  token: object
-) {
+export const REMOVE_ACCOUNT_TOKEN = 'REMOVE_ACCOUNT_TOKEN';
+export function removeAccountToken(accountName: string, tokenKey: string) {
   return {
     type: REMOVE_ACCOUNT_TOKEN,
     accountName,
-    token
+    tokenKey
   };
 }
 

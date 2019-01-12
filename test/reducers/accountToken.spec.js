@@ -1,7 +1,8 @@
 import accountToken from '../../app/reducers/accountToken';
 import {
   RECEIVE_TOKEN_LIST,
-  RECEIVE_ACCOUNT_TOKEN
+  RECEIVE_ACCOUNT_TOKEN,
+  REMOVE_ACCOUNT_TOKEN
 } from '../../app/actions/accountToken';
 
 describe('reducers', () => {
@@ -51,6 +52,36 @@ describe('reducers', () => {
       console.log(newState);
       expect(newState.owns['EXIST-account']).not.toBeNull();
       expect(newState.owns['NUTS-nutscontract'].balance).toEqual('123.0000');
+    });
+
+    it('should handle REMOVE_ACCOUNT_TOKEN', () => {
+      const initState = {
+        all: [{ name: 'EXIST' }],
+        owns: {
+          'EXIST-account': { balance: '1' },
+          'NUTS-nutscontract': {
+            token: {
+              name: 'NUTS',
+              logo:
+                'https://raw.githubusercontent.com/eoscafe/eos-airdrops/master/logos/nuts.png',
+              logo_lg:
+                'https://raw.githubusercontent.com/eoscafe/eos-airdrops/master/logos/nuts-lg.png',
+              symbol: 'NUTS',
+              account: 'nutscontract'
+            },
+            balance: '123.0000'
+          }
+        }
+      };
+
+      const newState = accountToken(initState, {
+        type: REMOVE_ACCOUNT_TOKEN,
+        accountName: 'account name',
+        tokenKey: 'NUTS-nutscontract'
+      });
+
+      console.log(newState);
+      expect(newState.owns['NUTS-nutscontract']).toBeUndefined();
     });
   });
 });

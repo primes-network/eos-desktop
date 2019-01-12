@@ -14,13 +14,16 @@ import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CardActions from '@material-ui/core/CardActions';
 
 type Props = {
   classes: object,
   accountName: string,
   owns: object,
   all: object,
-  fetchAccountToken: () => void
+  fetchAccountToken: () => void,
+  removeAccountToken: () => void
 };
 
 const styles = () => ({
@@ -43,8 +46,12 @@ const styles = () => ({
     marginBottom: 15,
     minWidth: 175
   },
+  details: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
   cardCover: {
-    width: 100,
+    width: 140,
     media: {
       width: 50
     }
@@ -55,7 +62,14 @@ class AccountToken extends Component<Props> {
   props: Props;
 
   render() {
-    const { classes, owns, all, accountName, fetchAccountToken } = this.props;
+    const {
+      classes,
+      owns,
+      all,
+      accountName,
+      fetchAccountToken,
+      removeAccountToken
+    } = this.props;
 
     const ownsCards = [];
     if (owns != null) {
@@ -63,14 +77,23 @@ class AccountToken extends Component<Props> {
         const token = owns[key];
         ownsCards.push(
           <Card className={classes.card} key={key}>
-            <CardContent>
-              <Typography color="textSecondary" gutterBottom>
-                {token.token.account}
-              </Typography>
-              <Typography variant="h5" component="h3">
-                {token.balance} {token.token.symbol}
-              </Typography>
-            </CardContent>
+            <div className={classes.details}>
+              <CardContent>
+                <Typography color="textSecondary" gutterBottom>
+                  {token.token.account}
+                </Typography>
+                <Typography variant="h5" component="h3">
+                  {token.balance} {token.token.symbol}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <IconButton>
+                  <DeleteIcon
+                    onClick={() => removeAccountToken(accountName, key)}
+                  />
+                </IconButton>
+              </CardActions>
+            </div>
             <CardMedia
               className={classes.cardCover}
               image={token.token.logo}

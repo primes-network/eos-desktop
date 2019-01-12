@@ -2,6 +2,7 @@
 import {
   REQUEST_ACCOUNT_TOKEN,
   RECEIVE_ACCOUNT_TOKEN,
+  REMOVE_ACCOUNT_TOKEN,
   RESET_ACCOUNT_TOKEN,
   REQUEST_TOKEN_LIST,
   RECEIVE_TOKEN_LIST
@@ -30,6 +31,15 @@ export default function accountToken(
             token: action.token,
             balance
           }
+        }
+      };
+    }
+    case REMOVE_ACCOUNT_TOKEN: {
+      const { [action.tokenKey]: value, ...other } = state.owns;
+      return {
+        ...state,
+        owns: {
+          ...other
         }
       };
     }
