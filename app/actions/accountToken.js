@@ -1,5 +1,6 @@
 // @flow
 import fetch from 'cross-fetch';
+import { saveAccountToken } from '../services/storageService';
 
 export const REQUEST_ACCOUNT_TOKEN = 'REQUEST_ACCOUNT_TOKEN';
 function requestAccountToken(accountName: string, symbol: string) {
@@ -71,7 +72,7 @@ export function fetchTokenList() {
 }
 
 export function fetchAccountToken(accountName: string, token: object) {
-  return dispatch => {
+  return (dispatch, getState) => {
     dispatch(requestAccountToken(accountName));
     return fetch('https://api.eosnewyork.io/v1/chain/get_currency_balance', {
       method: 'post',
@@ -86,6 +87,9 @@ export function fetchAccountToken(accountName: string, token: object) {
       })
     })
       .then(response => response.json())
-      .then(json => dispatch(receiveAccountToken(accountName, token, json)));
+      .then(json => {
+        dispatch(receiveAccountToken(accountName, token, json));
+        return saveAccountToken(accountName, getState().accountToken.owns);
+      });
   };
 }

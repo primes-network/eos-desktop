@@ -51,7 +51,7 @@ const styles = () => ({
     flexDirection: 'column'
   },
   cardCover: {
-    width: 140,
+    width: 150,
     media: {
       width: 50
     }
@@ -87,10 +87,10 @@ class AccountToken extends Component<Props> {
                 </Typography>
               </CardContent>
               <CardActions>
-                <IconButton>
-                  <DeleteIcon
-                    onClick={() => removeAccountToken(accountName, key)}
-                  />
+                <IconButton
+                  onClick={() => removeAccountToken(accountName, key)}
+                >
+                  <DeleteIcon />
                 </IconButton>
               </CardActions>
             </div>

@@ -1,4 +1,4 @@
-import { Store } from 'electron-store';
+import Store from 'electron-store';
 import { RUNNING_TESTS, TestStore } from '../utils/testHelper';
 // import { remote } from '../utils/electronHelper';
 
@@ -13,7 +13,12 @@ const getStore = name => {
   return stores[name];
 };
 
-// export const dataStorage = () => getStore(DATA_FILE);
-export default () => getStore(DATA_FILE);
+export const dataStorage = () => getStore(DATA_FILE);
 
 // const dataPath = remote.app.getPath('userData');
+
+export const saveAccountToken = async (accountName, owns) => {
+  const data = dataStorage().get(accountName) || {};
+  data.owns = owns;
+  dataStorage().set(accountName, data);
+};
