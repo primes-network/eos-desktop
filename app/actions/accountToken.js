@@ -1,6 +1,6 @@
 // @flow
 import fetch from 'cross-fetch';
-import { saveAccountToken } from '../services/storageService';
+import { saveAccountToken, loadAccountToken } from '../services/storageService';
 
 export const REQUEST_ACCOUNT_TOKEN = 'REQUEST_ACCOUNT_TOKEN';
 function requestAccountToken(accountName: string, symbol: string) {
@@ -29,6 +29,24 @@ export function resetAccountToken() {
   };
 }
 
+export const REMOVE_ACCOUNT_TOKEN = 'REMOVE_ACCOUNT_TOKEN';
+export function removeAccountToken(accountName: string, tokenKey: string) {
+  return {
+    type: REMOVE_ACCOUNT_TOKEN,
+    accountName,
+    tokenKey
+  };
+}
+
+export const SET_ACCOUNT_TOKENS = 'SET_ACCOUNT_TOKENS';
+export function setAccountTokens(accountName: string, owns) {
+  return {
+    type: SET_ACCOUNT_TOKENS,
+    accountName,
+    owns
+  };
+}
+
 export const REQUEST_TOKEN_LIST = 'REQUEST_TOKEN_LIST';
 function requestTokenList() {
   return {
@@ -41,15 +59,6 @@ export function receiveTokenList(json) {
   return {
     type: RECEIVE_TOKEN_LIST,
     json
-  };
-}
-
-export const REMOVE_ACCOUNT_TOKEN = 'REMOVE_ACCOUNT_TOKEN';
-export function removeAccountToken(accountName: string, tokenKey: string) {
-  return {
-    type: REMOVE_ACCOUNT_TOKEN,
-    accountName,
-    tokenKey
   };
 }
 
@@ -92,4 +101,21 @@ export function fetchAccountToken(accountName: string, token: object) {
         return saveAccountToken(accountName, getState().accountToken.owns);
       });
   };
+}
+
+export function removeAccountTokenAndSyncStorage(
+  accountName: string,
+  tokenKey: string
+) {
+  return (dispatch, getState) => {
+    dispatch(removeAccountToken(accountName, tokenKey));
+    return saveAccountToken(accountName, getState().accountToken.owns);
+  };
+}
+
+export function loadOwnedTokenFromStorage(accountName: string) {
+  return dispatch =>
+    loadAccountToken(accountName).then(owns =>
+      dispatch(setAccountTokens(accountName, owns))
+    );
 }

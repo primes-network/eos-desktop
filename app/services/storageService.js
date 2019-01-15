@@ -1,3 +1,4 @@
+// @flow
 import Store from 'electron-store';
 import { RUNNING_TESTS, TestStore } from '../utils/testHelper';
 // import { remote } from '../utils/electronHelper';
@@ -21,4 +22,9 @@ export const saveAccountToken = async (accountName, owns) => {
   const data = dataStorage().get(accountName) || {};
   data.owns = owns;
   dataStorage().set(accountName, data);
+};
+
+export const loadAccountToken = async (accountName: string) => {
+  const data = dataStorage().get(accountName) || {};
+  return data.owns;
 };

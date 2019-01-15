@@ -3,6 +3,7 @@ import {
   REQUEST_ACCOUNT_TOKEN,
   RECEIVE_ACCOUNT_TOKEN,
   REMOVE_ACCOUNT_TOKEN,
+  SET_ACCOUNT_TOKENS,
   RESET_ACCOUNT_TOKEN,
   REQUEST_TOKEN_LIST,
   RECEIVE_TOKEN_LIST
@@ -43,6 +44,11 @@ export default function accountToken(
         }
       };
     }
+    case SET_ACCOUNT_TOKENS:
+      return {
+        ...state,
+        owns: action.owns
+      };
     case RESET_ACCOUNT_TOKEN:
       return {};
     default:

@@ -23,7 +23,7 @@ type Props = {
   owns: object,
   all: object,
   fetchAccountToken: () => void,
-  removeAccountToken: () => void
+  removeAccountTokenAndSyncStorage: () => void
 };
 
 const styles = () => ({
@@ -68,7 +68,7 @@ class AccountToken extends Component<Props> {
       all,
       accountName,
       fetchAccountToken,
-      removeAccountToken
+      removeAccountTokenAndSyncStorage
     } = this.props;
 
     const ownsCards = [];
@@ -88,7 +88,9 @@ class AccountToken extends Component<Props> {
               </CardContent>
               <CardActions>
                 <IconButton
-                  onClick={() => removeAccountToken(accountName, key)}
+                  onClick={() =>
+                    removeAccountTokenAndSyncStorage(accountName, key)
+                  }
                 >
                   <DeleteIcon />
                 </IconButton>

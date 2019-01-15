@@ -9,7 +9,8 @@ type Props = {
   match: object,
   fetchTokenList: () => void,
   fetchAccountToken: () => void,
-  removeAccountToken: () => void,
+  removeAccountTokenAndSyncStorage: () => void,
+  loadOwnedTokenFromStorage: () => void,
   accountToken: object
 };
 
@@ -19,15 +20,20 @@ class AccountTokenPage extends Component<Props> {
   constructor(props) {
     super(props);
 
-    const { fetchTokenList } = props;
+    const {
+      fetchTokenList,
+      loadOwnedTokenFromStorage,
+      match: { params }
+    } = props;
     fetchTokenList();
+    loadOwnedTokenFromStorage(params.name);
   }
 
   render() {
     const {
       accountToken,
       fetchAccountToken,
-      removeAccountToken,
+      removeAccountTokenAndSyncStorage,
       match: { params }
     } = this.props;
     return (
@@ -36,7 +42,7 @@ class AccountTokenPage extends Component<Props> {
         owns={accountToken.owns}
         accountName={params.name}
         fetchAccountToken={fetchAccountToken}
-        removeAccountToken={removeAccountToken}
+        removeAccountTokenAndSyncStorage={removeAccountTokenAndSyncStorage}
       />
     );
   }
