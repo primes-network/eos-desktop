@@ -115,7 +115,18 @@ export function removeAccountTokenAndSyncStorage(
 
 export function loadOwnedTokenFromStorage(accountName: string) {
   return dispatch =>
-    loadAccountToken(accountName).then(owns =>
-      dispatch(setAccountTokens(accountName, owns))
-    );
+    loadAccountToken(accountName).then(owns => {
+      dispatch(setAccountTokens(accountName, owns));
+
+      // need to request slowly
+      let counter = 0;
+      return Object.keys(owns).forEach(key => {
+        const token = owns[key];
+        setTimeout(
+          () => dispatch(fetchAccountToken(accountName, token.token)),
+          counter * 1000
+        );
+        counter += 1;
+      });
+    });
 }
