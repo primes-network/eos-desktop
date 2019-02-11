@@ -66,7 +66,7 @@ export function fetchTokenList() {
   return dispatch => {
     dispatch(requestTokenList());
     return fetch(
-      'https://raw.githubusercontent.com/eoscafe/eos-airdrops/master/tokens.json',
+      'https://raw.githubusercontent.com/primes-network/eos-airdrops/master/tokens.json',
       {
         method: 'get',
         headers: {
@@ -83,7 +83,7 @@ export function fetchTokenList() {
 export function fetchAccountToken(accountName: string, token: object) {
   return (dispatch, getState) => {
     dispatch(requestAccountToken(accountName));
-    return fetch('https://api.eosnewyork.io/v1/chain/get_currency_balance', {
+    return fetch(`${getState().config.nodeURL}/v1/chain/get_currency_balance`, {
       method: 'post',
       headers: {
         Accept: 'application/json',

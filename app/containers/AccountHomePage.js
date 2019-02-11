@@ -8,7 +8,11 @@ import AccountHome from '../components/AccountHome';
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
-    { resetAccountToken, resetAccountActions, resetAccountInfo },
+    {
+      resetAccountToken,
+      resetAccountActions,
+      resetAccountInfo
+    },
     dispatch
   );
 }

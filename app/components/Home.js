@@ -1,14 +1,36 @@
 // @flow
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
+import MenuItem from '@material-ui/core/MenuItem';
+
+// import styles from './Home.css';
 import { rootRoutes } from '../constants/routes';
-import styles from './Home.css';
 
-type Props = {};
+type Props = {
+  classes: object,
+  changeEOSNodeAndSyncStorage: void => {},
+  config: object
+};
 
-export default class Home extends Component<Props> {
+const styles = () => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    textAlign: 'center'
+  }
+});
+
+const EOSNodes = {
+  'https://eos.greymass.com': 'operated by greymass',
+  // 'https://mainnet.eoscalgary.io': 'operated by EOS Cafe',
+  'https://node.eosflare.io': 'operated by EOS Flare'
+};
+
+class Home extends Component<Props> {
   props: Props;
 
   constructor(props) {
@@ -18,18 +40,50 @@ export default class Home extends Component<Props> {
       accountName: 'betthefuture'
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleEOSNodeChange = this.handleEOSNodeChange.bind(this);
   }
 
   handleChange(event) {
     this.setState({ accountName: event.target.value });
   }
 
+  handleEOSNodeChange(event) {
+    const { changeEOSNodeAndSyncStorage } = this.props;
+    changeEOSNodeAndSyncStorage(event.target.value);
+  }
+
   render() {
+    const { classes, config } = this.props;
     const { accountName } = this.state;
+    const nodeItems = Object.keys(EOSNodes).map(key => (
+      <MenuItem key={key} value={key}>
+        {key} - {EOSNodes[key]}
+      </MenuItem>
+    ));
 
     return (
-      <div className={styles.container} data-tid="container">
-        <h2>Home</h2>
+      <div className={classes.root}>
+        <Typography component="h2" gutterBottom>
+          Primes EOS Desktop
+        </Typography>
+        <TextField
+          id="outlined-select-currency"
+          select
+          label="EOS Nodes"
+          className={classes.textField}
+          value={config.nodeURL || ''}
+          onChange={this.handleEOSNodeChange}
+          SelectProps={{
+            MenuProps: {
+              className: classes.menu
+            }
+          }}
+          helperText="Please select EOS node"
+          margin="normal"
+          variant="outlined"
+        >
+          {nodeItems}
+        </TextField>
         <Link to={rootRoutes.COUNTER.path}>to Counter</Link>
         <TextField
           id="account_name"
@@ -45,3 +99,5 @@ export default class Home extends Component<Props> {
     );
   }
 }
+
+export default withStyles(styles)(Home);

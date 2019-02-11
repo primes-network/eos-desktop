@@ -4,6 +4,7 @@ import { RUNNING_TESTS, TestStore } from '../utils/testHelper';
 // import { remote } from '../utils/electronHelper';
 
 const DATA_FILE = 'data';
+const CONFIG_ATTR = 'config';
 
 const stores = {};
 const getStore = name => {
@@ -27,4 +28,10 @@ export const saveAccountToken = async (accountName, owns) => {
 export const loadAccountToken = async (accountName: string) => {
   const data = dataStorage().get(accountName) || {};
   return data.owns;
+};
+
+export const loadConfig = async () => dataStorage().get(CONFIG_ATTR) || {};
+
+export const saveConfig = async (config: object) => {
+  dataStorage().set(CONFIG_ATTR, config);
 };

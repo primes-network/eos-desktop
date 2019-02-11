@@ -30,7 +30,7 @@ type Props = {
   resetAccountActions: () => void
 };
 
-const drawerWidth = 220;
+const drawerWidth = 190;
 
 const styles = theme => ({
   root: {
@@ -126,6 +126,7 @@ class AccountHome extends Component<Props> {
             key="transfer"
             selected={selectedIndex === 'transfer'}
             onClick={() => this.handleListItemSelected('transfer')}
+            disabled
           >
             <ListItemIcon>
               <SendIcon />
@@ -136,6 +137,7 @@ class AccountHome extends Component<Props> {
             button
             key="delegate"
             selected={selectedIndex === 'delegate'}
+            disabled
           >
             <ListItemIcon>
               <ArrowForwardIosIcon />
@@ -146,6 +148,7 @@ class AccountHome extends Component<Props> {
             button
             key="undelegate"
             selected={selectedIndex === 'undelegate'}
+            disabled
           >
             <ListItemIcon>
               <ArrowBackIosIcon />
@@ -155,13 +158,23 @@ class AccountHome extends Component<Props> {
         </List>
         <Divider />
         <List>
-          <ListItem button key="ram" selected={selectedIndex === 'ram'}>
+          <ListItem
+            button
+            key="ram"
+            selected={selectedIndex === 'ram'}
+            disabled
+          >
             <ListItemIcon>
               <MemoryIcon />
             </ListItemIcon>
             <ListItemText primary="RAM" />
           </ListItem>
-          <ListItem button key="voting" selected={selectedIndex === 'voting'}>
+          <ListItem
+            button
+            key="voting"
+            selected={selectedIndex === 'voting'}
+            disabled
+          >
             <ListItemIcon>
               <HowToVoteIcon />
             </ListItemIcon>

@@ -35,8 +35,9 @@ export function fetchAccountActions(
   return (dispatch, getState) => {
     dispatch(requestAccountActions(accountName));
     const { count } = getState().accountActions;
+    const { nodeURL } = getState().config;
     if (count === 0 || refresh) {
-      return postAccountActionsWithOffset(accountName, -1, -1) // get the last pos
+      return postAccountActionsWithOffset(nodeURL, accountName, -1, -1) // get the last pos
         .then(response => {
           if (response.status >= 400) {
             console.error(response.text());
@@ -48,6 +49,7 @@ export function fetchAccountActions(
         .then(seq => {
           dispatch(setTotalCount(seq + 1));
           return postAccountActionsWithOffset(
+            nodeURL,
             accountName,
             seq - (page + 1) * rowsPerPage + 1,
             rowsPerPage - 1
@@ -66,6 +68,7 @@ export function fetchAccountActions(
         });
     }
     return postAccountActionsWithOffset(
+      nodeURL,
       accountName,
       count - (page + 1) * rowsPerPage,
       rowsPerPage - 1
@@ -86,11 +89,12 @@ export function fetchAccountActions(
 
 // Call EOS node history actions API with 'pos' and 'offset' being set
 function postAccountActionsWithOffset(
+  nodeURL: string,
   accountName: string,
   pos: integer,
   offset: integer
 ): Promise {
-  return fetch('https://node.eosflare.io/v1/history/get_actions', {
+  return fetch(`${nodeURL}/v1/history/get_actions`, {
     method: 'post',
     headers: {
       Accept: 'application/json',
