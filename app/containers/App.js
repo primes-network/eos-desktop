@@ -25,10 +25,6 @@ export default class App extends React.Component<Props> {
         <CssBaseline />
         <Switch>
           <Route
-            path={rootRoutes.COUNTER.path}
-            component={rootRoutes.COUNTER.component}
-          />
-          <Route
             path={rootRoutes.ACCOUNT.path}
             component={rootRoutes.ACCOUNT.component}
           />

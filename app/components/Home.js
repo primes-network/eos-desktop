@@ -7,9 +7,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 
-// import styles from './Home.css';
-import { rootRoutes } from '../constants/routes';
-
 type Props = {
   classes: object,
   changeEOSNodeAndSyncStorage: void => {},
@@ -84,7 +81,6 @@ class Home extends Component<Props> {
         >
           {nodeItems}
         </TextField>
-        <Link to={rootRoutes.COUNTER.path}>to Counter</Link>
         <TextField
           id="account_name"
           value={accountName}
