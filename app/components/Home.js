@@ -48,7 +48,7 @@ class Home extends Component<Props> {
     super(props);
 
     this.state = {
-      accountName: 'dappinventor'
+      accountName: ''
     };
 
     this.accountNameInput = React.createRef();

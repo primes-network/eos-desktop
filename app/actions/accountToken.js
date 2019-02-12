@@ -116,6 +116,9 @@ export function removeAccountTokenAndSyncStorage(
 export function loadOwnedTokenFromStorage(accountName: string) {
   return dispatch =>
     loadAccountToken(accountName).then(owns => {
+      if (owns === undefined) {
+        return;
+      }
       dispatch(setAccountTokens(accountName, owns));
 
       // need to request slowly
