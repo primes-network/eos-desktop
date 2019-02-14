@@ -1,8 +1,8 @@
 {
-  "name": "electron-react-boilerplate",
-  "productName": "ElectronReact",
-  "version": "0.17.1",
-  "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
+  "name": "primes-eos-desktop",
+  "productName": "PrimesEOSDesktop",
+  "version": "0.1.0",
+  "description": "Primes EOS Desktop Wallet",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
     "build-dll": "cross-env NODE_ENV=development webpack --config ./configs/webpack.config.renderer.dev.dll.babel.js --colors",
@@ -57,8 +57,8 @@
   },
   "main": "./app/main.prod.js",
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.develar.ElectronReact",
+    "productName": "PrimesEOSDesktop",
+    "appId": "network.primes.PrimesEOSDesktop",
     "files": [
       "app/dist/",
       "app/app.html",
@@ -98,51 +98,27 @@
     "directories": {
       "buildResources": "resources",
       "output": "release"
-    },
-    "publish": {
-      "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate",
-      "private": false
     }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/electron-react-boilerplate/electron-react-boilerplate.git"
+    "url": "git+https://github.com/primes-network/eos-desktop.git"
   },
   "author": {
-    "name": "Electron React Boilerplte Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
-    "url": "https://electron-react-boilerplate.js.org"
+    "name": "Primes Network",
+    "email": "primes.ntwk@gmail.com",
+    "url": "https://primes.network"
   },
-  "contributors": [
-    {
-      "name": "Vikram Rangaraj",
-      "email": "vikr01@icloud.com",
-      "url": "https://github.com/vikr01"
-    },
-    {
-      "name": "Amila Welihinda",
-      "email": "amilajack@gmail.com",
-      "url": "https://github.com/amilajack"
-    }
-  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues"
+    "url": "https://github.com/primes-network/eos-desktop/issues"
   },
   "keywords": [
-    "electron",
-    "boilerplate",
-    "react",
-    "redux",
-    "flow",
-    "sass",
-    "webpack",
-    "hot",
-    "reload"
+    "eos",
+    "wallet",
+    "eos wallet"
   ],
-  "homepage": "https://github.com/electron-react-boilerplate/electron-react-boilerplate#readme",
+  "homepage": "https://github.com/primes-network/eos-desktop#readme",
   "jest": {
     "testURL": "http://localhost/",
     "moduleNameMapper": {
@@ -219,7 +195,7 @@
     "eslint-plugin-testcafe": "^0.2.1",
     "fbjs-scripts": "^1.0.1",
     "file-loader": "^2.0.0",
-    "flow-bin": "^0.77.0",
+    "flow-bin": "^0.93.0",
     "flow-runtime": "^0.17.0",
     "flow-typed": "^2.5.1",
     "husky": "^1.1.4",
@@ -264,8 +240,9 @@
     "electron-log": "^2.2.17",
     "electron-store": "^2.0.0",
     "electron-updater": "^4.0.6",
-    "eosjs": "^20.0.0-beta2",
+    "eosjs": "^20.0.0-beta3",
     "history": "^4.7.2",
+    "moment": "^2.24.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-hot-loader": "^4.3.12",
@@ -281,9 +258,6 @@
     "node": ">=7.x",
     "npm": ">=4.x",
     "yarn": ">=0.21.3"
-  },
-  "collective": {
-    "url": "https://opencollective.com/electron-react-boilerplate-594"
   },
   "browserslist": "electron 1.6"
 }

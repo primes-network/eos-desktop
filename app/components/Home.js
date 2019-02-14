@@ -84,6 +84,9 @@ class Home extends Component<Props> {
         <Typography variant="h3" gutterBottom>
           Primes EOS Desktop
         </Typography>
+        <Typography variant="h6" gutterBottom>
+          (Read Only)
+        </Typography>
         <TextField
           id="outlined-select-currency"
           select
